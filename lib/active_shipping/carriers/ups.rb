@@ -149,7 +149,7 @@ module ActiveShipping
     }
 
     def requirements
-      [:key, :login, :password]
+      [:key, :login, :password, :token]
     end
 
     def find_rates(origin, destination, packages, options = {})
@@ -1198,7 +1198,7 @@ module ActiveShipping
     end
 
     def commit(action, request, test = false)
-      response = ssl_post("#{test ? TEST_URL : LIVE_URL}/#{RESOURCES[action]}", request)
+      response = ssl_post("#{test ? TEST_URL : LIVE_URL}/#{RESOURCES[action]}", request, headers = {Authorization: "Bearer #{@options[:token]}"})
       response.encode('utf-8', 'iso-8859-1')
     end
 
